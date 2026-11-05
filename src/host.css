@@ -1,0 +1,12 @@
+.crodox-host-loading,
+.crodox-host-error {
+  box-sizing: border-box;
+  padding: 24px;
+  color: #17212f;
+  background: #f8fafc;
+  font: 15px/1.6 system-ui, sans-serif;
+}
+
+.crodox-host-error h1 { font-size: 22px; }
+.crodox-host-error pre { overflow: auto; white-space: pre-wrap; }
+.crodox-host-error button { padding: 8px 16px; cursor: pointer; }

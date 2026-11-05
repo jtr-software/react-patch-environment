@@ -1,0 +1,22 @@
+.stage {
+  display: grid;
+  min-height: 100svh;
+  padding: 48px 24px;
+  place-items: center;
+  box-sizing: border-box;
+  background: #eff3f1;
+  color: #183e33;
+  font: 16px/1.6 system-ui, sans-serif;
+}
+
+.card { width: min(100%, 650px); }
+.mark { margin-bottom: 28px; }
+.eyebrow { font-size: 11px; font-weight: 700; letter-spacing: 0.16em; }
+.card h1 { max-width: 620px; margin: 18px 0; font-size: clamp(32px, 6vw, 58px); line-height: 1.12; letter-spacing: -0.045em; }
+.description { max-width: 560px; color: #51675f; }
+.controls { display: flex; flex-wrap: wrap; align-items: center; gap: 22px; margin-top: 32px; }
+.controls button { display: flex; gap: 28px; padding: 14px 20px; border: 0; border-radius: 8px; background: #185c46; color: white; font: inherit; font-weight: 600; cursor: pointer; }
+.controls button:hover { background: #124a38; }
+.controls button:focus-visible { outline: 3px solid #88b5a5; outline-offset: 4px; }
+.controls output { color: #51675f; font-size: 14px; }
+.footer { margin-top: 48px; border-top: 1px solid #cddbd3; padding-top: 20px; color: #647a70; font-size: 12px; }
