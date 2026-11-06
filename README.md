@@ -1,6 +1,6 @@
 # Crodox React patch environment
 
-A standalone Vite host for browser-renderable React function components, with TypeScript/TSX and JavaScript/JSX support. Crodox patches `preview/entry.tsx` and supplies the component's dependency files. The HTML and React bootstrap stay reusable.
+A standalone Vite host for React function components. Crodox creates a workbench with the selected source files at their original repository-relative paths. The patch to `preview/entry.tsx` imports and renders the selection.
 
 ## Run the example
 
@@ -12,7 +12,7 @@ npm ci
 npm run dev
 ```
 
-Open http://127.0.0.1:5174. The included card demonstrates typed props, state, a relative helper import, an `@/` import, CSS modules, and a public SVG. Vite reloads patched files during development.
+Open http://127.0.0.1:5174. The included card demonstrates typed props, state, a relative helper import, a CSS module, and an imported SVG. Vite reloads patched files during development.
 
 ```powershell
 npm run typecheck
@@ -26,20 +26,19 @@ The build is written to `dist/`; the built preview uses port 4174. `build` trans
 ## Repository shape
 
 ```text
-index.html                    Fixed HTML entry, loads src/main.tsx
-src/
-  main.tsx                    Fixed React root, setup, lazy imports
+index.html                    HTML entry, loads preview/main.tsx
+preview/
+  main.tsx                    React root and setup
   PreviewBoundary.tsx         Import/setup/render error display
   host.css                    Styles scoped to host status/error UI
-preview/
   entry.tsx                   PATCH HERE: import + props + selected component
   Providers.tsx               Router, theme, store, query/auth context
   setup.ts                    Async fixtures or API mock initialization
   styles.css                  Original global CSS and font imports
   vite.extensions.ts          Additional plugins, aliases, API proxy
-extracted/
-  src/                        Extracted source, preserving original paths
-  public/                     Public assets, served at /
+  example/                    Standalone starter card
+src/                          Source files when supplied by Crodox
+public/                       Source public assets when supplied, served at /
 scripts/
   import-dependencies.mjs     Preview/merge source dependency declarations
 tsconfig.json                 Compiler options and source import aliases
@@ -53,7 +52,7 @@ docs/PATCH-CONTRACT.md        File contract for Crodox-generated patches
 
 Suppose the original project contains `src/components/ProductCard.tsx`.
 
-1. Put the component at `extracted/src/components/ProductCard.tsx`. Include its imported hooks, helpers, child components, types, CSS, images, JSON, generated modules, and their transitive imports. Preserve paths relative to the original project root. If extracting only declarations, also retain the imports and declarations they depend on, and export the selected component.
+1. Select the component and its dependencies in Crodox. The workbench receives the component at `src/components/ProductCard.tsx`. If copying files manually, use the same repository-relative paths. Keep the component's export and include its required imports, declarations, and assets.
 2. Install its external packages using the source project's version declarations. Start with the dependency importer below.
 3. Replace `preview/entry.tsx`:
 
@@ -83,8 +82,8 @@ Suppose the original project contains `src/components/ProductCard.tsx`.
    }
    ```
 
-5. Import global styles in `preview/styles.css`, and copy root-served files such as `/logo.svg` to `extracted/public/logo.svg`. Keep imported assets beside the extracted source that references them. Initialize API mocks in `setupPreview()`; the host awaits it before importing the component and providers.
-6. Adjust aliases in `tsconfig.json`. The defaults map `@/` and `~/` to `extracted/src/`. For a source alias such as `@ui/* -> packages/ui/src/*`, use `@ui/* -> ./extracted/packages/ui/src/*`. Keep the original monorepo layout inside `extracted/` when relative imports cross package boundaries.
+5. Import global styles in `preview/styles.css`, for example `@import "../src/index.css";`. Copy root-served files such as `/logo.svg` to `public/logo.svg`. Keep imported assets beside the source that references them. Initialize API mocks in `setupPreview()`. The host awaits setup before importing the component and providers.
+6. Adjust aliases in `tsconfig.json` to match the source project. The defaults map `@/` and `~/` to `src/`. A source alias pointing to `packages/ui/src/*` can use that same path from the workbench root.
 
 With the dev server running, a new patch is just a set of file changes. No change to `index.html` is needed.
 
@@ -135,10 +134,10 @@ export default defineConfig({ plugins: [tailwindcss()] });
 ```css
 /* preview/styles.css: use the source theme/custom CSS as needed. */
 @import "tailwindcss";
-@source "../extracted";
+@source "../src";
 ```
 
-Tailwind 3 needs its PostCSS pipeline and original theme/configuration instead. A Tailwind 4 installation cannot reproduce arbitrary Tailwind 3 configuration. Recreate fonts and theme tokens as well as utility generation.
+Tailwind 3 needs its PostCSS pipeline and original theme configuration. Keep the source directory globs, such as `./src/**/*.{ts,tsx}`, and include `./preview/**/*.{ts,tsx}` if preview wrappers use utilities. Recreate fonts and theme tokens as well as utility generation.
 
 ## Runtime integrations
 

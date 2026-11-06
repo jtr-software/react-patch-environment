@@ -16,16 +16,10 @@
     "noEmit": true,
     "types": ["vite/client", "node"],
     "paths": {
-      "@/*": ["./extracted/src/*"],
-      "~/*": ["./extracted/src/*"]
+      "@/*": ["./*"],
+      "~/*": ["./*"]
     }
   },
-  "include": [
-    "src",
-    "preview",
-    "extracted",
-    "extracted/**/*.css",
-    "extracted/**/*.scss",
-    "vite.config.ts"
-  ]
+  "include": ["**/*", "**/*.css", "**/*.scss"],
+  "exclude": ["node_modules", "dist"]
 }

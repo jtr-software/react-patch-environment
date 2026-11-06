@@ -1,4 +1,4 @@
-import { ExampleCard } from "@/components/ExampleCard";
+import { ExampleCard } from "./example/ExampleCard";
 
 // CRODOX PATCH TARGET: replace this module's import and JSX with the selection.
 // Keep one default export that returns the component with valid example props.

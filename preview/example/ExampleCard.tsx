@@ -1,6 +1,7 @@
 import { useState } from "react";
-import { formatCount } from "../lib/formatCount";
+import { formatCount } from "./formatCount";
 import styles from "./ExampleCard.module.css";
+import previewMark from "./preview-mark.svg";
 
 export type ExampleCardProps = {
   title: string;
@@ -14,7 +15,7 @@ export function ExampleCard({ title, description, initialCount = 0 }: ExampleCar
   return (
     <main className={styles.stage}>
       <article className={styles.card}>
-        <img className={styles.mark} src="/preview-mark.svg" alt="" width="48" height="48" />
+        <img className={styles.mark} src={previewMark} alt="" width="48" height="48" />
         <p className={styles.eyebrow}>CRODOX / COMPONENT PREVIEW</p>
         <h1>{title}</h1>
         <p className={styles.description}>{description}</p>

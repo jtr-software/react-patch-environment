@@ -11,7 +11,6 @@ export default defineConfig(({ mode }) => {
   return mergeConfig(
     {
       plugins: [react()],
-      publicDir: "extracted/public",
       envPrefix: ["VITE_", "REACT_APP_", "NEXT_PUBLIC_"],
       define: {
         // CRA's asset prefix; Vite already handles process.env.NODE_ENV.

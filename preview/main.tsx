@@ -11,14 +11,14 @@ const loading = <p className="crodox-host-loading" role="status">Loading compone
 root.render(loading);
 
 async function startPreview() {
-  const { setupPreview } = await import("../preview/setup");
+  const { setupPreview } = await import("./setup");
   await setupPreview();
 
   // Import after setup so module-level requests can use installed mocks.
-  await import("../preview/styles.css");
+  await import("./styles.css");
   const [{ default: Preview }, { PreviewProviders }] = await Promise.all([
-    import("../preview/entry"),
-    import("../preview/Providers"),
+    import("./entry"),
+    import("./Providers"),
   ]);
 
   root.render(
